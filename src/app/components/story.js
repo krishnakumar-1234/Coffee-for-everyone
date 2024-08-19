@@ -66,7 +66,7 @@ const StoryCarousel = () => {
   }, [currentIndex, isPaused]);
 
   return (
-    <div className="relative w-80 h-80 mx-auto overflow-hidden rounded-lg bg-gray-200">
+    <div className="relative w-[90%] h-[70vh] mx-auto overflow-hidden rounded-lg bg-gray-200">
       {/* Progress Bar */}
       <div className="top-0 left-0 w-full h-1 bg-gray-00">
         <div 

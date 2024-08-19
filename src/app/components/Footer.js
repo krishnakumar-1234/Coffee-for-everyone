@@ -20,10 +20,10 @@ const Footer = () => {
             href="https://www.instagram.com/nikhil_kumar_023/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-80 transition duration-300"
+            className="hover:opacity-80 transition duration-300 bg-black rounded-full"
           >
             <Image
-              src="/followUp/instagram.gif"
+              src="/followUp/Social-handle-(Dark)-[remix].gif"
               alt="Facebook"
               width={150}
               height={150}
