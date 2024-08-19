@@ -23,8 +23,8 @@ export default function Home() {
     <>
       <LandingPage />
       {showToast && <CustomToast />}
-      <Phone />
-      <Story />
+      {/* <Phone />
+      <Story /> */}
     </>
   );
 }
