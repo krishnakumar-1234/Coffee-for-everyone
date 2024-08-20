@@ -1,29 +1,30 @@
 "use client";
 import Image from "next/image";
-// import { useRouter } from "next/navigation";
-// import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import the useRouter hook
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Page({ params }) {
-//   const { data: session } = useSession();
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     if (!session) {
-//       router.push("./newlogin");
-//     }
-//   }, [session, router]);
-
   const [imageSrc, setImageSrc] = useState("");
+  const [user, setUser] = useState({ name: "", email: "" });
+  const router = useRouter(); // Initialize the useRouter hook
 
   useEffect(() => {
     const savedImage = localStorage.getItem("profileImage");
+    const savedUser = localStorage.getItem("user");
+
+    if (!savedUser) {
+      // If no user is found in localStorage, redirect to the login page
+      router.push("/newlogin"); // Redirect to the login page
+    } else {
+      setUser(JSON.parse(savedUser));
+    }
+
     if (savedImage) {
       setImageSrc(savedImage);
     }
-  }, []);
+  }, [router]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -53,10 +54,6 @@ export default function Page({ params }) {
     document.getElementById("fileInput").click();
   };
 
-//   if (!session) {
-//     return null; // Prevent rendering if session is not available
-//   }
-
   return (
     <>
       <ToastContainer />
@@ -72,10 +69,7 @@ export default function Page({ params }) {
           <div className="relative flex flex-col items-center">
             <Image
               className="border-white border-2 object-cover rounded-full w-[150px] h-[150px] cursor-pointer"
-              src={
-                imageSrc ||
-                "/images.jpg"
-              }
+              src={imageSrc || "/images.jpg"}
               alt="Profile"
               width={150}
               height={150}
@@ -100,9 +94,12 @@ export default function Page({ params }) {
         </div>
       </div>
       <div className="info flex justify-center items-center my-16 flex-col p-10">
-        <div className="font-bold text-1lg">@{params.username}</div>
+        <div className="font-bold text-1lg">@{user.name}</div>
         <div className="text-slate-400">
-          Lets help <span>{params.username}</span> get a coffee!
+          Lets help <span>{user.name}</span> to get a coffee!
+        </div>
+        <div className="text-slate-400">
+          <span>Email: {user.email}</span>
         </div>
         <div className="text-slate-400">
           <span>0 Payments .</span>
@@ -129,37 +126,42 @@ export default function Page({ params }) {
                       name: "Neil Sims",
                       email: "email@windster.com",
                       amount: "$320",
+                      image: "/landingPageIcons/wired-flat-268-avatar-man.gif",
                     },
                     {
                       name: "Bonnie Green",
                       email: "email@windster.com",
                       amount: "$3467",
+                      image: "/landingPageIcons/wired-flat-268-avatar-man.gif",
                     },
                     {
                       name: "Michael Gough",
                       email: "email@windster.com",
                       amount: "$67",
+                      image: "/landingPageIcons/wired-flat-268-avatar-man.gif",
                     },
                     {
                       name: "Lana Byrd",
                       email: "email@windster.com",
                       amount: "$367",
+                      image: "/landingPageIcons/wired-flat-268-avatar-man.gif",
                     },
                     {
                       name: "Thomas Lean",
                       email: "email@windster.com",
                       amount: "$2367",
+                      image: "/landingPageIcons/wired-flat-268-avatar-man.gif",
                     },
                   ].map((supporter, index) => (
                     <li key={index} className="py-3 sm:py-4">
                       <div className="flex items-center space-x-4">
                         <div className="shrink-0">
                           <Image
-                            alt={`${supporter.name} image`}
+                            alt={`${supporter.image} image`}
                             height="32"
-                            src="/userForTheFriendsToTesting/download-6.jpg"
+                            src={supporter.image}
                             width="32"
-                            className="rounded-full"
+                            className="rounded-full bg-gray-900"
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -207,8 +209,8 @@ export default function Page({ params }) {
             </div>
             <div className="flex gap-2 mt-3 slecttopaymoneyContainer">
               <button className="bg-slate-700 p-3 rounded-lg">Pay $10</button>
-              <button className="bg-slate-700 p-3 rounded-lg">Pay $10</button>
-              <button className="bg-slate-700 p-3 rounded-lg">Pay $10</button>
+              <button className="bg-slate-700 p-3 rounded-lg">Pay $20</button>
+              <button className="bg-slate-700 p-3 rounded-lg">Pay $30</button>
             </div>
           </div>
         </div>
