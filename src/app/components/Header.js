@@ -1,14 +1,14 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import useDropdown from "../dropdown/page"; // Adjust the import path as needed
 
 const Header = () => {
   const [user, setUser] = useState(null);
-  const { isDropdownOpen, dropdownRef, buttonRef, toggleDropdown } =
-    useDropdown();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,7 +16,33 @@ const Header = () => {
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
+
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      setIsDropdownOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   const handleSignOut = () => {
     localStorage.removeItem("user");
@@ -27,10 +53,7 @@ const Header = () => {
   return (
     <header className="bg-gray-900 h-[72px] w-full flex justify-between items-center px-4 md:px-8 relative">
       {/* Left Side: Logo and Name */}
-      <Link
-        href="/"
-        className="flex items-center gap-1 md:gap-2 whitespace-nowrap"
-      >
+      <Link href="/" className="flex items-center gap-1 md:gap-2 whitespace-nowrap">
         <Image
           src="/landingPageIcons/wired-lineal-1702-electric-teapot.gif"
           alt="Logo"
@@ -39,13 +62,11 @@ const Header = () => {
           layout="intrinsic"
           className="rounded-full"
         />
-        <span className="text-white text-lg md:text-xl font-semibold">
-          Coffee For Everyone
-        </span>
+        <span className="text-white text-lg md:text-xl font-semibold">Coffee For Everyone</span>
       </Link>
 
       {/* Right Side: Conditional Rendering Based on User Authentication */}
-      <div className="flex gap-2 md:gap-4">
+      <div className="flex gap-2 md:gap-4 relative">
         {user ? (
           <>
             <button
@@ -77,15 +98,10 @@ const Header = () => {
             <div
               ref={dropdownRef}
               id="dropdown"
-              className={`z-10 ${
-                isDropdownOpen ? "block" : "hidden"
-              } absolute right-5 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 max-h-60 overflow-y-auto dark:bg-gray-700`}
-              style={{ marginTop: "48px" }} // Adding a gap of 2 units (adjust as needed)
+              className={`z-10 ${isDropdownOpen ? "block" : "hidden"} absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 max-h-60 overflow-y-auto dark:bg-gray-700`}
+              style={{ top: "calc(100% + 8px)" }} // Adjusts the gap between the button and the dropdown
             >
-              <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 <li>
                   <a
                     href="#"
