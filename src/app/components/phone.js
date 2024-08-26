@@ -1,43 +1,89 @@
-import React from "react";
-import { motion } from "framer-motion";
+// components/MySwiper.js
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  EffectCoverflow,
+  Pagination,
+  Navigation,
+  Autoplay,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-const showreelData = [
-  { id: 1, title: "Project 1", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3eUsd9GVBZj8NOz_1jy4Mc3OIIytawFItLpmz5BQFoowEA4RM8NMtow9kqpRHdQOksdE&usqp=CAU" },
-  { id: 2, title: "Project 2", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3eUsd9GVBZj8NOz_1jy4Mc3OIIytawFItLpmz5BQFoowEA4RM8NMtow9kqpRHdQOksdE&usqp=CAU" },
-  { id: 3, title: "Project 3", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3eUsd9GVBZj8NOz_1jy4Mc3OIIytawFItLpmz5BQFoowEA4RM8NMtow9kqpRHdQOksdE&usqp=CAU" },
-  { id: 4, title: "Project 4", img: "https://hneeblog.com/wp-content/uploads/2024/06/1688014613763ef74d89154de713b849.webp" },
-  { id: 5, title: "Project 5", img: "https://hneeblog.com/wp-content/uploads/2024/06/1688014613763ef74d89154de713b849.webp" },
-  { id: 6, title: "Project 6", img: "https://hneeblog.com/wp-content/uploads/2024/06/1688014613763ef74d89154de713b849.webp" },
-];
-
-const ShowreelGrid = () => {
+export default function MySwiper() {
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
-      {showreelData.map((item) => (
-        <motion.div
-          key={item.id}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="relative"
-        >
-          <img
-            src={item.img}
-            alt={item.title}
-            className="w-full h-40 object-cover rounded-lg"
-          />
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg"
-          >
-            <span className="text-white text-lg font-semibold">
-              {item.title}
-            </span>
-          </motion.div>
-        </motion.div>
-      ))}
-    </div>
+    <Swiper
+      effect={"coverflow"}
+      grabCursor={true}
+      centeredSlides={true}
+      slidesPerView={3} // Show 3 slides at a time by default
+      spaceBetween={20} // Space between slides
+      autoplay={{
+        delay: 3000, // 3000ms = 3 seconds
+        disableOnInteraction: false, // Continue autoplay after user interaction
+      }}
+      coverflowEffect={{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      }}
+      pagination={{ clickable: true }}
+      navigation={true}
+      modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+      className="mySwiper"
+      breakpoints={{
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+      }}
+    >
+      <SwiperSlide>
+        <img
+          src="/CoffeeImages/coffee1.avif"
+          alt="Slide 1"
+          className="swiper-image"
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img
+          src="/CoffeeImages/coffee2.avif"
+          alt="Slide 2"
+          className="swiper-image"
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img
+          src="/CoffeeImages/coffee3.avif"
+          alt="Slide 3"
+          className="swiper-image"
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img
+          src="/CoffeeImages/coffee4.avif"
+          alt="Slide 4"
+          className="swiper-image"
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img
+          src="/CoffeeImages/coffee5.avif"
+          alt="Slide 5"
+          className="swiper-image"
+        />
+      </SwiperSlide>
+    </Swiper>
   );
-};
-
-export default ShowreelGrid;
+}

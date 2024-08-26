@@ -16,7 +16,7 @@ export default function Page({ params }) {
 
     if (!savedUser) {
       // If no user is found in localStorage, redirect to the login page
-      router.push("/newlogin"); // Redirect to the login page
+      router.push("/login"); // Redirect to the login page
     } else {
       setUser(JSON.parse(savedUser));
     }
@@ -93,12 +93,12 @@ export default function Page({ params }) {
           </div>
         </div>
       </div>
-      <div className="info flex justify-center items-center my-16 flex-col p-10">
+      <div className="info flex justify-center items-center my-16 flex-col p-3 sm:p-10">
         <div className="font-bold text-1lg">@{user.name}</div>
         <div className="text-slate-400">
           Lets help <span>{user.name}</span> to get a coffee!
         </div>
-        <div className="text-slate-400">
+        <div className="text-slate-400 text-center">
           <span>Email: {user.email}</span>
         </div>
         <div className="text-slate-400">
@@ -182,7 +182,7 @@ export default function Page({ params }) {
               </div>
             </ul>
           </div>
-          <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-10 width100in700widthofDievice leespaddinginphone">
+          <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-5 sm:p-10 width100in700widthofDievice leespaddinginphone">
             <h2 className="text-2xl font-bold my-4">Make a payment</h2>
             <div className="flex gap-4 flex-col">
               <input
